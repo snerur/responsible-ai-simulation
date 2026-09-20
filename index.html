@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veritas Health Credit — The Underwriting Dilemma</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">⚖</span>
+    <div>
+      <div class="brand-name">Veritas Health Credit</div>
+      <div class="brand-sub">The Underwriting Dilemma · a Responsible AI simulation</div>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn ghost small" id="open-glossary" title="Every abbreviation used in the simulation">📖 Glossary</button>
+    <button class="btn ghost small" id="restart">Restart</button>
+  </div>
+</header>
+
+<!-- ============ SETUP ============ -->
+<main id="screen-setup" class="screen">
+  <section class="card hero">
+    <div class="kicker">Building Responsible AI Systems</div>
+    <h1>You have six months and 2.4 million decisions.</h1>
+    <div id="brief" class="brief"></div>
+    <p class="muted small">Unfamiliar acronym? Every one is spelled out on first use, underlined wherever it
+      appears, and listed in the <b>📖 Glossary</b> at the top of the page.</p>
+    <div class="learn-strip">
+      <span>AI Ethics</span><span>Interpretability vs Explainability</span><span>SHAP</span>
+      <span>LIME</span><span>Anchors</span><span>Counterfactuals</span><span>Fairness metrics</span>
+      <span>MLOps</span><span>AIOps</span><span>AI Governance</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>1 · Choose your seat at the table</h2>
+    <p class="muted">Your role sets your starting position. It does not change what is right — only what it costs you.</p>
+    <div id="roles" class="roles"></div>
+  </section>
+
+  <section class="card">
+    <h2>2 · Choose your campaign length</h2>
+    <div class="radios">
+      <label><input type="radio" name="len" value="quick" checked>
+        <b>Quick Play</b><span class="muted"> — 22 decisions, ~30 min. The core curriculum.</span></label>
+      <label><input type="radio" name="len" value="full">
+        <b>Full Campaign</b><span class="muted"> — 28 decisions, ~45 min. Everything, including the hard ones.</span></label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>3 · Choose your AI coach</h2>
+    <p class="muted">An LLM reviews every sprint and writes your final report. Pick a provider and paste your
+      own key, point at a shared proxy your instructor is running, or play offline with the built-in expert notes.</p>
+
+    <div class="form-grid">
+      <div class="row">
+        <label for="llm-mode">Connection</label>
+        <select id="llm-mode">
+          <option value="browser">My own API key (stays in this browser)</option>
+          <option value="proxy">Instructor's proxy server</option>
+          <option value="offline">Offline — no AI coach</option>
+        </select>
+      </div>
+
+      <div class="row" id="row-provider">
+        <label for="provider">Provider</label>
+        <select id="provider"></select>
+      </div>
+
+      <div class="row" id="row-model">
+        <label for="model">Model</label>
+        <select id="model"></select>
+      </div>
+
+      <div class="row" id="row-key">
+        <label for="api-key">API key</label>
+        <div class="key-wrap">
+          <input type="password" id="api-key" placeholder="" autocomplete="off" spellcheck="false">
+          <span class="key-hint" id="key-hint"></span>
+          <a id="key-link" target="_blank" rel="noopener" class="small">Get a key ↗</a>
+        </div>
+      </div>
+
+      <div class="row hidden" id="row-proxy">
+        <label for="proxy-url">Proxy URL</label>
+        <input type="text" id="proxy-url" placeholder="http://localhost:8787">
+      </div>
+    </div>
+
+    <div class="privacy">
+      🔒 Your key is stored only in this browser's <code>localStorage</code> and is sent only to the provider you
+      chose. Nothing is sent to us — there is no "us"; this page has no backend.
+    </div>
+
+    <div class="dec-actions">
+      <button class="btn" id="test-llm">Test connection</button>
+      <span class="status" id="llm-status"></span>
+    </div>
+  </section>
+
+  <div class="start-row">
+    <button class="btn primary big" id="start">Start the simulation →</button>
+    <button class="btn ghost hidden" id="resume">Resume saved run</button>
+  </div>
+</main>
+
+<!-- ============ GAME ============ -->
+<main id="screen-game" class="screen hidden">
+  <div class="hud">
+    <div id="meters" class="meters"></div>
+    <div class="progress">
+      <div class="progress-track"><i id="progress-bar"></i></div>
+      <span id="progress-text" class="small muted"></span>
+    </div>
+  </div>
+  <div id="stage"></div>
+</main>
+
+<!-- ============ REPORT ============ -->
+<main id="screen-report" class="screen hidden">
+  <h1 class="report-title">Performance Review</h1>
+  <div id="report-body"></div>
+</main>
+
+<!-- ============ GLOSSARY ============ -->
+<div id="glossary" class="modal hidden" role="dialog" aria-modal="true" aria-label="Glossary of abbreviations">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2>Glossary</h2>
+      <input type="text" id="gloss-search" placeholder="Filter terms…" autocomplete="off" spellcheck="false">
+      <button class="btn ghost small" id="gloss-close">Close</button>
+    </div>
+    <p class="modal-sub muted small">Every abbreviation used in the simulation. Anywhere in the game, an
+      <abbr class="gloss-demo">underlined acronym</abbr> can be hovered or tapped to jump straight here.</p>
+    <div id="gloss-list" class="gloss-list"></div>
+  </div>
+</div>
+
+<footer class="foot">
+  <span>Veritas Health Credit is fictional. The failure modes are not.</span>
+</footer>
+
+<script src="js/content.js"></script>
+<script src="js/badges.js"></script>
+<script src="js/llm.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

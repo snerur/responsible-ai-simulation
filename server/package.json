@@ -1,0 +1,16 @@
+{
+  "name": "vhc-simulation-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Optional instructor-hosted proxy + static server for the Veritas Health Credit responsible-AI simulation",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.127.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
