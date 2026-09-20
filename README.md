@@ -126,15 +126,18 @@ reverse and why.
 
 ## Choosing a provider and model
 
-| Provider | Default | Notes |
-|---|---|---|
-| Anthropic | `claude-opus-5` | Strongest coaching. Sprint debriefs take ~20s, the final report ~45s. |
-| OpenAI | `gpt-5` | Comparable quality and latency. |
-| Google | `gemini-2.5-pro` | |
+| Provider | Model | Sprint debrief | Final report |
+|---|---|---|---|
+| Anthropic | `claude-opus-5` (default) | ~20 s | ~55 s |
+| Anthropic | `claude-sonnet-5` | ~8 s | ~40 s |
+| OpenAI | `gpt-5` (default) | ~13 s | ~30 s |
+| Google | `gemini-2.5-pro` (default) | ~16 s | ~29 s |
+| Google | `gemini-2.5-flash` | ~11 s | ~14 s |
 
-For a live classroom where latency matters more than depth, have students pick
-`claude-sonnet-5` or `gemini-2.5-flash` — noticeably snappier, still good coaching. Model
-lists live in `js/llm.js` (`VHC.providers`) if you want to pin or add one.
+Measured end-to-end through this app, both transports. All five combinations are verified
+working; the defaults give the most thoughtful coaching, and a student on `gemini-2.5-flash`
+or `claude-sonnet-5` will spend about two and a half minutes total waiting on the model
+across a whole playthrough. For a timed in-class session, tell them to pick a fast model.
 
 A full playthrough is roughly 10 LLM calls (6 sprint debriefs + 3 reflection grades + 1 final
 report), so cost per student is small but non-zero. If a call fails for any reason — bad key,

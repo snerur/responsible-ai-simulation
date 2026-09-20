@@ -48,7 +48,13 @@ async function completeAnthropic({ model, system, user, maxTokens }) {
     system,
     messages: [{ role: "user", content: user }]
   });
-  return res.content.filter(b => b.type === "text").map(b => b.text).join("");
+  const text = res.content.filter(b => b.type === "text").map(b => b.text).join("");
+  if (!text.trim()) {
+    throw new Error(res.stop_reason === "max_tokens"
+      ? "Claude hit its output limit before answering. Raise maxTokens."
+      : `Claude returned no text (${res.stop_reason || "unknown"}).`);
+  }
+  return text;
 }
 
 async function completeOpenAI({ model, system, user, maxTokens }) {
@@ -64,7 +70,15 @@ async function completeOpenAI({ model, system, user, maxTokens }) {
   });
   const data = await r.json();
   if (!r.ok) throw new Error(data?.error?.message || `OpenAI ${r.status}`);
-  return data.choices?.[0]?.message?.content || "";
+  const choice = data.choices?.[0];
+  const text = choice?.message?.content || "";
+  // Reasoning models spend max_completion_tokens on reasoning before writing.
+  if (!text.trim()) {
+    throw new Error(choice?.finish_reason === "length"
+      ? "The model hit its output limit before answering. Raise maxTokens."
+      : `OpenAI returned no text (${choice?.finish_reason || "unknown"}).`);
+  }
+  return text;
 }
 
 async function completeGemini({ model, system, user, maxTokens }) {
@@ -81,7 +95,18 @@ async function completeGemini({ model, system, user, maxTokens }) {
   });
   const data = await r.json();
   if (!r.ok) throw new Error(data?.error?.message || `Gemini ${r.status}`);
-  return (data.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("");
+  const cand = data.candidates?.[0];
+  const text = (cand?.content?.parts || []).map(p => p.text || "").join("");
+  // Gemini 2.5 spends "thinking" tokens out of maxOutputTokens; exhausting it
+  // returns 200 with empty or truncated text rather than an error.
+  if (!text.trim()) {
+    const why = cand?.finishReason || "no content";
+    throw new Error(why === "MAX_TOKENS"
+      ? "Gemini hit its output limit while thinking and returned nothing. Try gemini-2.5-flash, or raise maxTokens."
+      : `Gemini returned no text (${why}).`);
+  }
+  if (cand?.finishReason === "MAX_TOKENS") throw new Error("Gemini response was cut off by the output limit.");
+  return text;
 }
 
 const PROVIDERS = { anthropic: completeAnthropic, openai: completeOpenAI, gemini: completeGemini };
@@ -127,10 +152,10 @@ http.createServer(async (req, res) => {
     });
     req.on("end", async () => {
       try {
-        const { provider, model, system, user, maxTokens = 2000 } = JSON.parse(raw);
+        const { provider, model, system, user, maxTokens = 6000 } = JSON.parse(raw);
         const fn = PROVIDERS[provider];
         if (!fn) throw new Error(`Unknown provider: ${provider}`);
-        const text = await fn({ model, system, user, maxTokens: Math.min(maxTokens, 8000) });
+        const text = await fn({ model, system, user, maxTokens: Math.min(maxTokens, 16000) });
         send(res, 200, JSON.stringify({ text }), { "content-type": "application/json" });
       } catch (e) {
         send(res, 400, JSON.stringify({ error: e.message }), { "content-type": "application/json" });

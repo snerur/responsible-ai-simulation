@@ -312,7 +312,7 @@
       const txt = await VHC.llm.complete(cfg, {
         system: "You are terse.",
         user: "Reply with exactly: READY",
-        maxTokens: 500
+        maxTokens: 1000
       });
       st.className = "status ok";
       st.textContent = `✓ ${VHC.providers[cfg.provider].label} responded: ${txt.trim().slice(0, 40)}`;
@@ -495,7 +495,7 @@
         const txt = await VHC.llm.complete(cfg, {
           system: VHC.prompts.system,
           user: VHC.prompts.round({ roundTitle: round.title, transcript: transcriptFor(entries) }),
-          maxTokens: 2000
+          maxTokens: 6000
         });
         coaching = VHC.llm.parseJSON(txt) || { headline: "Coach response could not be parsed.", strong: [], sharpen: [txt.slice(0, 600)], probe: "" };
       } catch (e) {
@@ -541,7 +541,7 @@
             const txt = await VHC.llm.complete(cfg, {
               system: VHC.prompts.system,
               user: VHC.prompts.reflection({ prompt: refl.prompt, rubric: refl.rubric, answer }),
-              maxTokens: 1500
+              maxTokens: 4000
             });
             grade = VHC.llm.parseJSON(txt);
           } catch (e) { grade = null; }
@@ -707,7 +707,7 @@
           badges: gold.map(b => b.name), demerits: demerits.map(b => b.name),
           transcript: transcriptFor(entries), reflections: reflText
         }),
-        maxTokens: 4000
+        maxTokens: 12000
       });
       const r = VHC.llm.parseJSON(txt);
       if (!r) { box.innerHTML = `<h3>Your examiner's report</h3><div class="prose">${esc(txt)}</div>`; return; }
