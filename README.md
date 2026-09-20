@@ -196,3 +196,35 @@ The static app has no backend and no analytics. API keys live in `localStorage` 
 student's machine and are sent only to the provider they selected. If you run the proxy, the
 key stays on your server and student prompts pass through it — the prompts contain only
 simulation choices, never personal data.
+
+---
+
+## Licence
+
+Dual-licensed so that both halves of the project are covered properly:
+
+- **Code** — `index.html`, `styles.css`, `js/app.js`, `js/badges.js`, `js/llm.js`,
+  `build.mjs`, `server/` — under the [MIT License](LICENSE).
+- **Teaching content** — the scenarios, options, expert notes, glossary, badges and coaching
+  prompts in `js/content.js`, plus this documentation — under
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), detailed in
+  [LICENSE-CONTENT.md](LICENSE-CONTENT.md).
+
+Adapt it for your own industry or course freely. If you do, please credit:
+
+> "Veritas Health Credit: The Underwriting Dilemma" by Sridhar Nerur,
+> <https://github.com/snerur/responsible-ai-simulation>, CC BY 4.0.
+
+## Educational use only — not professional advice
+
+Veritas Health Credit, CARENOW, its staff, data and incidents are entirely fictional.
+
+This simulation references real legal and regulatory instruments — ECOA and Regulation B, the
+EU AI Act, GDPR, SR 11-7, the NIST AI Risk Management Framework — in **simplified, dramatised
+form chosen to make teaching points**. Descriptions may be incomplete, may not reflect the
+current state of the law, and are not tailored to any jurisdiction or organisation. The
+"strongest option" in each decision is a pedagogical judgement, not a compliance standard.
+
+Nothing here is legal, compliance, financial, medical or professional advice, and it must not
+be relied upon for any real decision about a real system. Both licences provide the software
+and content **as-is, without warranty of any kind**.

@@ -340,3 +340,13 @@ abbr.gloss-demo{text-decoration:none;border-bottom:1px dotted #8fa8ee}
   .modal{padding:.6rem}
 }
 @media print{ .modal{display:none !important} abbr.gloss{border-bottom:none} }
+
+/* ---------- footer disclaimer ---------- */
+.foot{max-width:760px;margin:0 auto}
+.disclaimer{
+  font-size:.74rem;line-height:1.55;color:#6f7da6;margin:.9rem 0 0;
+  border-top:1px solid var(--line);padding-top:.9rem
+}
+.disclaimer b{color:#8e9cc4}
+.disclaimer a{color:#7f93cc}
+@media print{ .disclaimer{color:#555;border-color:#ccc} }
