@@ -1,5 +1,15 @@
 # How to share this with students (and other faculty)
 
+**This is already published:** <https://snerur.github.io/responsible-ai-simulation/>
+Send that link to your students and you are done. Source: <https://github.com/snerur/responsible-ai-simulation>
+
+To update it, edit the files and run `git add -A && git commit -m "..." && git push` — the
+site rebuilds in about a minute.
+
+The rest of this document covers the other ways to distribute it.
+
+---
+
 Four routes, easiest first. Pick one — they all deliver the same simulation.
 
 | Route | Students need | You need | Best for |
@@ -39,9 +49,8 @@ Rebuild the file any time you edit the scenarios.
 
 ## Route B — GitHub Pages (a permanent link)
 
-Gives you something like `https://snerur.github.io/responsible-ai-simulation/`, which you can
-put in a syllabus and reuse every semester. You have the GitHub CLI installed and logged in,
-so it is four commands:
+**Already done** — the site is at <https://snerur.github.io/responsible-ai-simulation/>. This section records how it
+was set up, in case you want a second copy or another instructor wants their own:
 
 ```bash
 cd /Users/snerur/sridhar/emba/simulation
@@ -110,7 +119,7 @@ address — no cloud account at all.
 >
 > **Time:** 30–45 minutes. Do it in one sitting.
 >
-> **To start:** [your link here]
+> **To start:** <https://snerur.github.io/responsible-ai-simulation/>
 >
 > **You will need an API key** from OpenAI, Anthropic or Google — pick one, paste it into the
 > setup screen. It stays in your own browser and is never sent anywhere except to the

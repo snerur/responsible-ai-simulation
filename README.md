@@ -7,13 +7,20 @@ fictional lender that finances medical procedures with an ML underwriting model.
 sprints and a lightning round they make 22–28 decisions spanning MLOps, AIOps, AI ethics,
 explainability and governance — then an LLM of their choice writes them a report card.
 
+**▶ Play it: <https://snerur.github.io/responsible-ai-simulation/>**
+
 <p align="center"><i>"Veritas Health Credit is fictional. The failure modes are not."</i></p>
 
 ---
 
 ## Quick start
 
-### Option 1 — students bring their own key (zero setup for you)
+### Option 0 — just send the link
+
+<https://snerur.github.io/responsible-ai-simulation/> is already live from this repository. Students open it, paste their own
+API key (or pick Offline), and play. Push to `main` and the site updates within a minute.
+
+### Option 1 — run it yourself locally
 
 ```bash
 cd simulation
